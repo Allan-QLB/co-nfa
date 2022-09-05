@@ -11,12 +11,12 @@ public class InputSource implements Source {
     private volatile Thread produceThread;
     private final LinkedBlockingQueue<TimestampedElement<JSONObject>> queue = new LinkedBlockingQueue<>();
     @Override
-    public void run(StandaloneRunner runner) {
-        produceThread = new Thread(() -> {
+    public void run(StandaloneRunner<?> runner) {
+         new Thread(() -> {
+             produceThread = Thread.currentThread();
             while (!Thread.interrupted()) {
                 try {
                     TimestampedElement<JSONObject> element = queue.take();
-                    System.out.println("send " + element);
                     runner.sendElement(element);
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
@@ -24,8 +24,7 @@ public class InputSource implements Source {
                     e.printStackTrace();
                 }
             }
-        });
-        produceThread.start();
+        }).start();
     }
 
     @Override

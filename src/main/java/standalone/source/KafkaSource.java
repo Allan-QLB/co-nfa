@@ -11,7 +11,7 @@ public class KafkaSource implements Source {
     }
 
     @Override
-    public void run(StandaloneRunner runner) throws Exception {
+    public void run(StandaloneRunner<?> runner) throws Exception {
 
     }
 
