@@ -159,7 +159,6 @@ public class StandaloneRunner<OUT> extends Thread implements WatermarkListener {
         }
 
         elementsForTimestamp.add(event);
-        //System.out.println("buffer event：" + event);
         elementQueueState.put(currentTime, elementsForTimestamp);
     }
 

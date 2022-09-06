@@ -37,7 +37,7 @@ public class Demo1 {
         }, inputSource);
         stringStandaloneRunner.start();
 
-        Thread.sleep(1000);
+
         inputSource.send(1000, new HashMap<String, Object>(){{
             put("id", 1);
             put("name", "a");
@@ -45,11 +45,11 @@ public class Demo1 {
 
         final Random random = new Random();
         String s = "abcdefghijklmnopqrstuvwxyz";
-        for (int i = 0; i < 200000; i++) {
+        for (int i = 0; i < 20000; i++) {
             final int idx = random.nextInt(s.length());
-            inputSource.send(500, new HashMap<String, Object>(){{
+            inputSource.send(1500, new HashMap<String, Object>(){{
                 put("id", 3);
-                put("name", s.substring(idx, idx));
+                put("name", s.substring(idx, idx+1));
             }});
         }
 
