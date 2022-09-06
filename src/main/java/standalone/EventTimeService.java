@@ -15,7 +15,7 @@ public class EventTimeService {
     public void tryAdvanceWatermark(TimestampedElement<?> element) throws Exception {
         final long watermark = element.getTimestamp();
         if (watermark > currentWatermark) {
-            currentWatermark = watermark;
+            currentWatermark = watermark - 120_000;
             for (WatermarkListener watermarkListener : watermarkListeners) {
                 watermarkListener.onWatermark(watermark);
             }

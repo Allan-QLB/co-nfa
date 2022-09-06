@@ -19,7 +19,6 @@ import org.apache.flink.cep.nfa.sharedbuffer.SharedBuffer;
 import org.apache.flink.cep.nfa.sharedbuffer.SharedBufferAccessor;
 import org.apache.flink.cep.pattern.Pattern;
 import org.apache.flink.cep.time.TimerService;
-import org.apache.flink.contrib.streaming.state.RocksDBKeyedStateBackend;
 import org.apache.flink.core.fs.CloseableRegistry;
 import org.apache.flink.runtime.state.DefaultKeyedStateStore;
 import org.apache.flink.runtime.state.KeyedStateBackend;
@@ -104,7 +103,6 @@ public class StandaloneRunner<OUT> extends Thread implements WatermarkListener {
         for (Source source : sources) {
             source.run(this);
         }
-        System.out.println("init success");
     }
 
     @Override
@@ -114,7 +112,6 @@ public class StandaloneRunner<OUT> extends Thread implements WatermarkListener {
             init();
             while (!Thread.interrupted()) {
                 final TimestampedElement<JSONObject> element = receiveBuffer.take();
-                System.out.println("receive element " + element);
                 processElement(element);
             }
         } catch (Throwable t) {
@@ -162,6 +159,7 @@ public class StandaloneRunner<OUT> extends Thread implements WatermarkListener {
         }
 
         elementsForTimestamp.add(event);
+        //System.out.println("buffer event：" + event);
         elementQueueState.put(currentTime, elementsForTimestamp);
     }
 

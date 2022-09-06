@@ -3,7 +3,10 @@ package standalone;
 import org.apache.flink.api.common.ExecutionConfig;
 import org.apache.flink.api.common.JobID;
 import org.apache.flink.api.common.typeutils.base.StringSerializer;
-import org.apache.flink.contrib.streaming.state.*;
+import org.apache.flink.contrib.streaming.state.RocksDBKeyedStateBackend;
+import org.apache.flink.contrib.streaming.state.RocksDBKeyedStateBackendBuilder;
+import org.apache.flink.contrib.streaming.state.RocksDBResourceContainer;
+import org.apache.flink.contrib.streaming.state.RocksDBStateBackend;
 import org.apache.flink.core.fs.CloseableRegistry;
 import org.apache.flink.metrics.groups.UnregisteredMetricsGroup;
 import org.apache.flink.runtime.jobgraph.JobVertexID;
@@ -14,11 +17,9 @@ import org.apache.flink.runtime.state.LocalRecoveryDirectoryProviderImpl;
 import org.apache.flink.runtime.state.UncompressedStreamCompressionDecorator;
 import org.apache.flink.runtime.state.ttl.TtlTimeProvider;
 import org.apache.flink.runtime.taskexecutor.KvStateService;
-import org.rocksdb.DBOptions;
 
 import java.io.File;
 import java.lang.reflect.Method;
-import java.util.Collection;
 import java.util.Collections;
 
 public class StandaloneStateBackendUtil {
@@ -33,9 +34,9 @@ public class StandaloneStateBackendUtil {
         final RocksDBResourceContainer optionsContainer = new RocksDBResourceContainer();
         final CloseableRegistry backendCloseRegistry = new CloseableRegistry();
         final String tmpdir = configuration.get("tmp.dir", String.class);
-        final Method ensureRocksDBIsLoaded = RocksDBStateBackend.class.getDeclaredMethod("ensureRocksDBIsLoaded", String.class);
-        ensureRocksDBIsLoaded.setAccessible(true);
-        ensureRocksDBIsLoaded.invoke(null, tmpdir);
+//        final Method ensureRocksDBIsLoaded = RocksDBStateBackend.class.getDeclaredMethod("ensureRocksDBIsLoaded", String.class);
+//        ensureRocksDBIsLoaded.setAccessible(true);
+//        ensureRocksDBIsLoaded.invoke(null, tmpdir);
         closeableRegistry.registerCloseable(backendCloseRegistry);
         RocksDBKeyedStateBackendBuilder<String> stringRocksDBKeyedStateBackendBuilder = new RocksDBKeyedStateBackendBuilder<>(
                 runnerId,
