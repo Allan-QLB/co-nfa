@@ -3,7 +3,6 @@ package standalone;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.flink.cep.pattern.Pattern;
 import org.apache.flink.cep.pattern.conditions.SimpleCondition;
-import org.apache.flink.runtime.state.BackendBuildingException;
 import org.apache.flink.streaming.api.windowing.time.Time;
 import standalone.source.InputSource;
 

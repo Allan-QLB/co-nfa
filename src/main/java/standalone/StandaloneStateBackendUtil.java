@@ -22,7 +22,8 @@ import java.util.Collection;
 import java.util.Collections;
 
 public class StandaloneStateBackendUtil {
-    private static final KvStateService KV_STATE_SERVICE = new KvStateService(new KvStateRegistry(), null, null);
+    private static final KvStateService KV_STATE_SERVICE = new KvStateService(new KvStateRegistry(),
+            null, null);
 
     public static RocksDBKeyedStateBackend<String> createStateBackend(Configuration configuration,
                                                                       ExecutionConfig executionConfig,
