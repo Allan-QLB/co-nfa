@@ -19,7 +19,6 @@ import org.apache.flink.runtime.state.ttl.TtlTimeProvider;
 import org.apache.flink.runtime.taskexecutor.KvStateService;
 
 import java.io.File;
-import java.lang.reflect.Method;
 import java.util.Collections;
 
 public class StandaloneStateBackendUtil {
@@ -34,11 +33,8 @@ public class StandaloneStateBackendUtil {
         final RocksDBResourceContainer optionsContainer = new RocksDBResourceContainer();
         final CloseableRegistry backendCloseRegistry = new CloseableRegistry();
         final String tmpdir = configuration.get("tmp.dir", String.class);
-//        final Method ensureRocksDBIsLoaded = RocksDBStateBackend.class.getDeclaredMethod("ensureRocksDBIsLoaded", String.class);
-//        ensureRocksDBIsLoaded.setAccessible(true);
-//        ensureRocksDBIsLoaded.invoke(null, tmpdir);
         closeableRegistry.registerCloseable(backendCloseRegistry);
-        RocksDBKeyedStateBackendBuilder<String> stringRocksDBKeyedStateBackendBuilder = new RocksDBKeyedStateBackendBuilder<>(
+        return new RocksDBKeyedStateBackendBuilder<>(
                 runnerId,
                 ClassLoader.getSystemClassLoader(),
                 new File(tmpdir + File.separator + taskId),
@@ -61,9 +57,7 @@ public class StandaloneStateBackendUtil {
                 Collections.emptyList(),
                 UncompressedStreamCompressionDecorator.INSTANCE,
                 backendCloseRegistry
-        );
-        return stringRocksDBKeyedStateBackendBuilder.build();
-
+        ).build();
     }
 
 }

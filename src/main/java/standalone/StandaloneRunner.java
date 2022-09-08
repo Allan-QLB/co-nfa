@@ -51,16 +51,19 @@ public class StandaloneRunner<OUT> extends Thread implements WatermarkListener {
     private final List<Source> sources = new ArrayList<>();
     private Thread processingThread;
     private final CloseableRegistry closeableRegistry;
+    private final AfterMatchSkipStrategy afterMatchSkipStrategy;
     private long lastWatermark;
 
     public StandaloneRunner(Configuration configuration,
                             NFA<JSONObject>nfa,
+                            AfterMatchSkipStrategy afterMatchSkipStrategy,
                             MatchFunction<JSONObject, OUT> function,
                             ExecutionConfig executionConfig,
                             Source ...sources) throws Exception {
         this.runnerId = JobID.generate().toHexString();
         this.taskId = JobID.generate().toHexString();
         this.nfa = nfa;
+        this.afterMatchSkipStrategy = afterMatchSkipStrategy;
         this.function = function;
         this.timerService = new EventTimeService();
         this.cepTimerService = System::currentTimeMillis;
@@ -81,7 +84,13 @@ public class StandaloneRunner<OUT> extends Thread implements WatermarkListener {
                                                  MatchFunction<JSONObject, O> function,
                                                  Source ...sources) throws Exception {
         NFACompiler.NFAFactory<JSONObject> nfaFactory = NFACompiler.compileFactory(pattern, false);
-        return new StandaloneRunner<>(Configuration.load(), nfaFactory.createNFA(), function,  new ExecutionConfig(), sources);
+        return new StandaloneRunner<>(
+                Configuration.load(),
+                nfaFactory.createNFA(),
+                pattern.getAfterMatchSkipStrategy(),
+                function,
+                new ExecutionConfig(),
+                sources);
     }
 
     public void init() throws Exception {
@@ -224,7 +233,7 @@ public class StandaloneRunner<OUT> extends Thread implements WatermarkListener {
                             nfaState,
                             event,
                             timestamp,
-                            AfterMatchSkipStrategy.noSkip(),
+                            afterMatchSkipStrategy,
                             cepTimerService);
             processMatchedSequences(patterns, timestamp);
         }
