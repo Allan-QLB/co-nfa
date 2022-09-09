@@ -17,12 +17,11 @@ public class Demo2 {
                 .where(new SimpleCondition<JSONObject>() {
                            @Override
                            public boolean filter(JSONObject event) throws Exception {
-
                                return  new JSONPath("$.tag").eval(event).equals("regulator")
                                        && new JSONPath("$.event.action").eval(event).equals("on");
                            }
                        }
-                ).timesOrMore(3).allowCombinations();
+                );
 
         final Pattern<JSONObject, JSONObject> alt1 = Pattern.<JSONObject>begin("second").where(new SimpleCondition<JSONObject>() {
             @Override
@@ -48,24 +47,27 @@ public class Demo2 {
             final JSONPath jsonPath = new JSONPath("$.event.id");
             return String.join(",",
                     jsonPath.eval(first.get(0)).toString(),
-                    jsonPath.eval(first.get(1)).toString(),
-                    jsonPath.eval(first.get(2)).toString(),
                     jsonPath.eval(first.get(first.size() - 1)).toString(),
                     jsonPath.eval(second.get(0)).toString());
         }, inputSource);
         stringStandaloneRunner.start();
 
-        inputSource.send(1004L, new TagEvent("regulator", new Regulator("a0", 10, 5, "on")));
-        inputSource.send(1005L,new TagEvent("regulator", new Regulator("a1", 10, 5, "on")));
-        inputSource.send(1007L,new TagEvent("regulator", new Regulator("a1_1", 10, 5, "on")));
-        inputSource.send(1008L,new TagEvent("regulator", new Regulator("a1_2", 10, 5, "on")));
-        inputSource.send(11_000L,new TagEvent("roomKey", new RoomKey("b1",  10, 5, "removed")));
+        for (int i = 0; i < 2000; i++) {
+            //System.out.println(i);
+            inputSource.send(1000 + i, new TagEvent("regulator", new Regulator("a" + i, 10, 5, "on")));
+        }
 
-        inputSource.send(11_004L,new TagEvent("regulator", new Regulator("a2_0", 10, 5, "on")));
-        inputSource.send(11_005L, new TagEvent("regulator", new Regulator("a2", 10, 5, "on")));
-        inputSource.send(11_006L,new TagEvent("regulator", new Regulator("a3", 10, 5, "on")));
-        inputSource.send(11_007L,new TagEvent("regulator", new Regulator("a4", 10, 5, "on")));
-        inputSource.send(11009L,new TagEvent("regulator", new Regulator("b2",  10, 5, "off")));
+
+//        inputSource.send(1005L,new TagEvent("regulator", new Regulator("a1", 10, 5, "on")));
+//        inputSource.send(1007L,new TagEvent("regulator", new Regulator("a1_1", 10, 5, "on")));
+//        inputSource.send(1008L,new TagEvent("regulator", new Regulator("a1_2", 10, 5, "on")));
+        inputSource.send(11_000L,new TagEvent("roomKey", new RoomKey("b1",  10, 5, "removed")));
+//
+//        inputSource.send(11_004L,new TagEvent("regulator", new Regulator("a2_0", 10, 5, "on")));
+//        inputSource.send(11_005L, new TagEvent("regulator", new Regulator("a2", 10, 5, "on")));
+//        inputSource.send(11_006L,new TagEvent("regulator", new Regulator("a3", 10, 5, "on")));
+//        inputSource.send(11_007L,new TagEvent("regulator", new Regulator("a4", 10, 5, "on")));
+//        inputSource.send(11009L,new TagEvent("regulator", new Regulator("b2",  10, 5, "off")));
 
     }
 }

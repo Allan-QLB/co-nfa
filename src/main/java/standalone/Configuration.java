@@ -23,6 +23,15 @@ public class Configuration {
         return new Configuration(ConfigUtil.loadConfigAsMap());
     }
 
+    public <T> T get(@Nonnull Option<T> option) {
+        final T value = get(option.getName(), option.getType());
+        if (value != null) {
+            return value;
+        }
+        return option.getDefaultValue();
+
+    }
+
     public <T> T get(@Nonnull String key, @Nonnull Class<T> clazz) {
         if (CollectionUtil.isEmpty(configMap)) {
             return null;
