@@ -506,8 +506,8 @@ public class Pattern<T, F extends T> {
                 this, group, ConsumingStrategy.SKIP_TILL_NEXT, afterMatchSkipStrategy);
     }
 
-    @SuppressWarnings("unchecked")
-    public OrPattern<T, F> followedByAnyOf(String name, Pattern<T, F> ...group) {
+    @SafeVarargs
+    public final OrPattern<T, F> followedByOr(String name, Pattern<T, F> ...group) {
         return new OrPattern<>(name,
                 this, Arrays.asList(group), ConsumingStrategy.SKIP_TILL_NEXT, afterMatchSkipStrategy);
     }

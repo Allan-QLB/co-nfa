@@ -39,7 +39,7 @@ public class Demo1 {
                     }
                 })
 //                .followedBy(or1).within(Time.seconds(500));
-                .followedByAnyOf("or1", or1, or2)
+                .followedByOr("or1", or1, or2)
                 .within(Time.seconds(500));
 
 

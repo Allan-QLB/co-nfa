@@ -38,7 +38,7 @@ public class Demo2 {
             }
         });
 
-        final Pattern<JSONObject, JSONObject> pattern = begin.followedByAnyOf("or", alt1, alt2).within(Time.seconds(10));
+        final Pattern<JSONObject, JSONObject> pattern = begin.followedByOr("or", alt1, alt2).within(Time.seconds(10));
 
         InputSource inputSource = new InputSource();
         final StandaloneRunner<String> stringStandaloneRunner = StandaloneRunner.create(pattern, match -> {
