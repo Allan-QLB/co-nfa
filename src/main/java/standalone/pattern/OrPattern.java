@@ -1,9 +1,9 @@
 package standalone.pattern;
 
-import org.apache.flink.cep.nfa.aftermatch.AfterMatchSkipStrategy;
-import org.apache.flink.cep.pattern.GroupPattern;
-import org.apache.flink.cep.pattern.Pattern;
-import org.apache.flink.cep.pattern.Quantifier;
+import cep.nfa.aftermatch.AfterMatchSkipStrategy;
+import cep.pattern.GroupPattern;
+import cep.pattern.Pattern;
+import cep.pattern.Quantifier;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;

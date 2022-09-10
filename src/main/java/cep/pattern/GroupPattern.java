@@ -16,10 +16,10 @@
  * limitations under the License.
  */
 
-package org.apache.flink.cep.pattern;
+package cep.pattern;
 
-import org.apache.flink.cep.nfa.aftermatch.AfterMatchSkipStrategy;
-import org.apache.flink.cep.pattern.conditions.IterativeCondition;
+import cep.nfa.aftermatch.AfterMatchSkipStrategy;
+import cep.pattern.conditions.IterativeCondition;
 
 /**
  * Base class for a group pattern definition.

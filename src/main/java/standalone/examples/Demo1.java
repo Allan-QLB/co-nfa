@@ -1,17 +1,14 @@
 package standalone.examples;
 
 import com.alibaba.fastjson.JSONObject;
-import com.google.common.base.Ascii;
-import org.apache.flink.cep.pattern.Pattern;
-import org.apache.flink.cep.pattern.conditions.SimpleCondition;
+import cep.pattern.Pattern;
+import cep.pattern.conditions.SimpleCondition;
 import org.apache.flink.streaming.api.windowing.time.Time;
 import standalone.StandaloneRunner;
 import standalone.source.InputSource;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
-import java.util.UUID;
 
 public class Demo1 {
     public static void main(String[] args) throws Exception {

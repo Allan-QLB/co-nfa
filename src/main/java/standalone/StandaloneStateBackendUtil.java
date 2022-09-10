@@ -91,10 +91,7 @@ public class StandaloneStateBackendUtil {
             int keyGroupNumbers,
             KeyGroupRange keyGroupRange,
             CloseableRegistry closeableRegistry) throws Exception {
-//        final String tmpdir = configuration.get("tmp.dir", String.class);
-//        final KeyGroupRange keyGroupRange = new KeyGroupRange(0, 0);
-//        final CloseableRegistry backendCloseRegistry = new CloseableRegistry();
-//        closeableRegistry.registerCloseable(backendCloseRegistry);
+
         HeapPriorityQueueSetFactory priorityQueueSetFactory =
                 new HeapPriorityQueueSetFactory(keyGroupRange, 1, 128);
         return new HeapKeyedStateBackendBuilder<>(

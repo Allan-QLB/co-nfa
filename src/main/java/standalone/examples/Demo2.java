@@ -2,9 +2,9 @@ package standalone.examples;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONPath;
-import org.apache.flink.cep.nfa.aftermatch.AfterMatchSkipStrategy;
-import org.apache.flink.cep.pattern.Pattern;
-import org.apache.flink.cep.pattern.conditions.SimpleCondition;
+import cep.nfa.aftermatch.AfterMatchSkipStrategy;
+import cep.pattern.Pattern;
+import cep.pattern.conditions.SimpleCondition;
 import org.apache.flink.streaming.api.windowing.time.Time;
 import standalone.StandaloneRunner;
 import standalone.source.InputSource;

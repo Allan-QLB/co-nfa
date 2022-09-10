@@ -16,37 +16,28 @@
  * limitations under the License.
  */
 
-package org.apache.flink.cep.nfa.compiler;
+package cep.nfa.compiler;
 
+import cep.nfa.NFA;
+import cep.nfa.State;
+import cep.nfa.StateTransition;
+import cep.nfa.StateTransitionAction;
+import cep.nfa.aftermatch.AfterMatchSkipStrategy;
 import org.apache.flink.api.java.tuple.Tuple2;
-import org.apache.flink.cep.nfa.NFA;
-import org.apache.flink.cep.nfa.State;
-import org.apache.flink.cep.nfa.StateTransition;
-import org.apache.flink.cep.nfa.StateTransitionAction;
-import org.apache.flink.cep.nfa.aftermatch.AfterMatchSkipStrategy;
-import org.apache.flink.cep.pattern.GroupPattern;
-import org.apache.flink.cep.pattern.MalformedPatternException;
-import org.apache.flink.cep.pattern.Pattern;
-import org.apache.flink.cep.pattern.Quantifier;
-import org.apache.flink.cep.pattern.Quantifier.Times;
-import org.apache.flink.cep.pattern.conditions.BooleanConditions;
-import org.apache.flink.cep.pattern.conditions.IterativeCondition;
-import org.apache.flink.cep.pattern.conditions.RichAndCondition;
-import org.apache.flink.cep.pattern.conditions.RichNotCondition;
+import cep.pattern.GroupPattern;
+import cep.pattern.MalformedPatternException;
+import cep.pattern.Pattern;
+import cep.pattern.Quantifier;
+import cep.pattern.Quantifier.Times;
+import cep.pattern.conditions.BooleanConditions;
+import cep.pattern.conditions.IterativeCondition;
+import cep.pattern.conditions.RichAndCondition;
+import cep.pattern.conditions.RichNotCondition;
 import org.apache.flink.streaming.api.windowing.time.Time;
 import standalone.pattern.OrPattern;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.Stack;
+import java.util.*;
 
 import static org.apache.flink.util.Preconditions.checkNotNull;
 
