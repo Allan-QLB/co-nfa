@@ -501,6 +501,18 @@ public class Pattern<T, F extends T> {
                 null, group, Quantifier.ConsumingStrategy.STRICT, AfterMatchSkipStrategy.noSkip());
     }
 
+    @SafeVarargs
+    public static <T, F extends T> OrPattern<T, F> beginByOr(String name, final AfterMatchSkipStrategy afterMatchSkipStrategy, Pattern<T, F> ...group) {
+        return new OrPattern<>(name,
+                null, Arrays.asList(group), Quantifier.ConsumingStrategy.SKIP_TILL_NEXT, afterMatchSkipStrategy);
+    }
+
+    @SafeVarargs
+    public static <T, F extends T> OrPattern<T, F> beginByOr(String name, Pattern<T, F> ...group) {
+        return new OrPattern<>(name,
+                null, Arrays.asList(group), Quantifier.ConsumingStrategy.SKIP_TILL_NEXT, AfterMatchSkipStrategy.noSkip());
+    }
+
     /**
      * Appends a new group pattern to the existing one. The new pattern enforces non-strict temporal
      * contiguity. This means that a matching event of this pattern and the preceding matching event

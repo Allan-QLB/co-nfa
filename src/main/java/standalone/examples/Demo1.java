@@ -1,5 +1,7 @@
 package standalone.examples;
 
+import cep.nfa.compiler.NFACompiler;
+import cep.nfa.util.NfaUtil;
 import com.alibaba.fastjson.JSONObject;
 import cep.pattern.Pattern;
 import cep.pattern.conditions.SimpleCondition;
@@ -39,6 +41,7 @@ public class Demo1 {
                 .followedByOr("or1", or1, or2)
                 .within(Time.seconds(500));
 
+        NfaUtil.drawGraphic(NFACompiler.compileFactory(Pattern.beginByOr("xx", or1, or2, pattern), false).createNFA());
 
         InputSource inputSource = new InputSource();
         final StandaloneRunner<String> stringStandaloneRunner = StandaloneRunner.create(pattern, match -> {

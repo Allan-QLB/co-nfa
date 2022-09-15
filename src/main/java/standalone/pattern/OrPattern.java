@@ -18,7 +18,7 @@ public class OrPattern<T, F extends T> extends Pattern<T, F> {
         super(name, previous, consumingStrategy, afterMatchSkipStrategy);
         for (Pattern<T, ? extends T> innerPattern : innerPatterns) {
             patterns.add(new GroupPattern<>(previous, innerPattern, consumingStrategy,
-                    previous.getAfterMatchSkipStrategy()));
+                    previous != null ? previous.getAfterMatchSkipStrategy() : afterMatchSkipStrategy));
         }
     }
 
