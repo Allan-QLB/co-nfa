@@ -7,6 +7,7 @@ import cep.pattern.Pattern;
 import cep.pattern.conditions.SimpleCondition;
 import org.apache.flink.streaming.api.windowing.time.Time;
 import standalone.StandaloneRunner;
+import standalone.format.Formats;
 import standalone.source.InputSource;
 
 import java.util.List;
@@ -40,8 +41,8 @@ public class Demo2 {
 
         final Pattern<JSONObject, JSONObject> pattern = begin.followedByOr("or", alt1, alt2).within(Time.seconds(10));
 
-        InputSource inputSource = new InputSource();
-        final StandaloneRunner<String> stringStandaloneRunner = StandaloneRunner.create(pattern, match -> {
+        InputSource inputSource = new InputSource(Formats.JSON_FORMAT);
+        final StandaloneRunner<JSONObject, String> stringStandaloneRunner = StandaloneRunner.create(pattern, match -> {
             List<JSONObject> first = match.get("first");
             List<JSONObject> second = match.get("second");
             final JSONPath jsonPath = new JSONPath("$.event.id");
@@ -49,7 +50,7 @@ public class Demo2 {
                     jsonPath.eval(first.get(0)).toString(),
                     jsonPath.eval(first.get(first.size() - 1)).toString(),
                     jsonPath.eval(second.get(0)).toString());
-        }, inputSource);
+        }, JSONObject.class, inputSource);
         stringStandaloneRunner.start();
 
         for (int i = 0; i < 2000; i++) {

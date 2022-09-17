@@ -3,8 +3,8 @@ package standalone.source;
 
 import standalone.StandaloneRunner;
 
-public interface Source {
-    void run(StandaloneRunner<?> runner) throws Exception;
+public interface Source<T> {
+    void run(StandaloneRunner<T, ?> runner) throws Exception;
 
     void shutdown();
 }

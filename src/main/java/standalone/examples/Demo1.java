@@ -7,6 +7,7 @@ import cep.pattern.Pattern;
 import cep.pattern.conditions.SimpleCondition;
 import org.apache.flink.streaming.api.windowing.time.Time;
 import standalone.StandaloneRunner;
+import standalone.format.Formats;
 import standalone.source.InputSource;
 
 import java.util.HashMap;
@@ -43,12 +44,12 @@ public class Demo1 {
 
         NfaUtil.drawGraphic(NFACompiler.compileFactory(Pattern.beginByOr("xx", or1, or2, pattern), false).createNFA());
 
-        InputSource inputSource = new InputSource();
-        final StandaloneRunner<String> stringStandaloneRunner = StandaloneRunner.create(pattern, match -> {
+        InputSource inputSource = new InputSource(Formats.JSON_FORMAT);
+        final StandaloneRunner<JSONObject, String> stringStandaloneRunner = StandaloneRunner.create(pattern, match -> {
             List<JSONObject> first = match.get("first");
             List<JSONObject> second = match.get("second");
             return (first.get(0).get("id") + "," + second.get(0).get("id"));
-        }, inputSource);
+        }, JSONObject.class, inputSource);
         stringStandaloneRunner.start();
 
 

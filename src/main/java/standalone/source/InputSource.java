@@ -1,22 +1,27 @@
 package standalone.source;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import standalone.StandaloneRunner;
 import standalone.TimestampedElement;
+import standalone.format.Format;
 
 import java.util.concurrent.LinkedBlockingQueue;
 
-public class InputSource implements Source {
+public class InputSource<T> implements Source<T> {
     private volatile Thread produceThread;
-    private final LinkedBlockingQueue<TimestampedElement<JSONObject>> queue = new LinkedBlockingQueue<>();
+    private final Format<T> format;
+    private final LinkedBlockingQueue<TimestampedElement<T>> queue = new LinkedBlockingQueue<>();
+
+    public InputSource(Format<T> format) {
+        this.format = format;
+    }
+
     @Override
-    public void run(StandaloneRunner<?> runner) {
+    public void run(StandaloneRunner<T, ?> runner) {
          new Thread(() -> {
              produceThread = Thread.currentThread();
             while (!Thread.interrupted()) {
                 try {
-                    TimestampedElement<JSONObject> element = queue.take();
+                    TimestampedElement<T> element = queue.take();
                     runner.sendElement(element);
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
@@ -35,7 +40,7 @@ public class InputSource implements Source {
     }
 
     public void send(long timestamp, Object data) {
-        queue.offer(new TimestampedElement<>(timestamp, (JSONObject) JSON.toJSON(data)));
+        queue.offer(new TimestampedElement<>(timestamp, format.convertData(data)));
     }
 
 }
